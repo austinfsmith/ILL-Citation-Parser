@@ -33,7 +33,7 @@ You can try it out at <https://austinfsmith.github.io/ILL-Citation-Parser/parser
   <span class="field">
     <span class="valid"><strong>Citation or DOI</strong></span><br />
   </span></br>
-  <textarea id="citation_field" type="text" rows="4" class="f-name" tabindex="1" value=""></textarea>
+  <textarea id="citation-field" type="text" rows="4" class="f-name" tabindex="1" value=""></textarea>
   <button type="button" id="citation_button" onclick="ParseCitation()">Autofill</button><br />
   <div id="openaccessdiv" style="display:none"><br/>
     <button type="button" id="openaccessbutton">View Open Access Version</button><br/>
