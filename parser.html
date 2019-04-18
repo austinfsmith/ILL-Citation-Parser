@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+  <title>Citation Parser</title>
+</head>
+<body>
+<script src="https://unpkg.com/xregexp/xregexp-all.js"></script>
+
+<script type="text/javascript" src="citationParser.js"></script></body>
+
+<label for="citation_field">
+  <span class="field">
+    <span class="valid"><strong>Citation or DOI</strong></span><br />
+  </span></br>
+  <textarea id="citation_field" type="text" rows="4" class="f-name" tabindex="1" value=""></textarea>
+  <button type="button" id="citation_button" onclick="ParseCitation()">Autofill</button><br />
+  <div id="openaccessdiv" style="display:none"><br/>
+    <button type="button" id="openaccessbutton">View Open Access Version</button><br/>
+    <span class="note">Open Access versions may be author drafts.</span>
+  </div>
+</label>
+
+<div id="errorText"></div>
+<label for="PhotoJournalTitle"><b>Journal or Book Title</b></label><br />
+<input id="PhotoJournalTitle" type="text" size="40" class="f-name" tabindex="2" ><br />
+<label for="PhotoJournalVolume"><b>Volume</b></label><br />
+<input id="PhotoJournalVolume" type="text" size="40" class="f-name" tabindex="3" ><br />
+<label for="PhotoJournalIssue"><b>Issue</b></label><br />
+<input id="PhotoJournalIssue" type="text" size="40" class="f-name" tabindex="4" ><br />
+<label for="PhotoJournalYear"><b>Year</b></label><br />
+<input id="PhotoJournalYear" type="text" size="40" class="f-name" tabindex="5" ><br />
+<label for="PhotoJournalMonth"><b>Month</b></label><br />
+<input id="PhotoJournalMonth" type="text" size="40" class="f-name" tabindex="6" ><br />
+<label for="PhotoJournalInclusivePages"><b>Pages</b></label><br />
+<input id="PhotoJournalInclusivePages" type="text" size="40" class="f-name" tabindex="7" ><br />
+<label for="PhotoArticleAuthor"><b>Author</b></label><br />
+<input id="PhotoArticleAuthor" type="text" size="40" class="f-name" tabindex="8" ><br />
+<label for="PhotoArticleTitle"><b>Article or Chapter Title</b></label><br />
+<input id="PhotoArticleTitle" type="text" size="40" class="f-name" tabindex="9" ><br />
+<label for="ISSN"><b>ISSN</b></label><br />
+<input id="ISSN" type="text" size="40" class="f-name" tabindex="10" ><br />
+</body>
+</html>
