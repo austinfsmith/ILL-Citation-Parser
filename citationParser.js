@@ -5,29 +5,32 @@
 // <script src="https://unpkg.com/xregexp/xregexp-all.js"></script>
 
 // Common regex clauses
-var author = "^(?<author>[A-Z](?:(?!$)[A-Za-z\u00C0-\u017F\\s&.,'â€™-])+)",
+var author = "^(?<author>[A-Z](?:(?!$)[A-Za-z\u00C0-\u017F\\s&.,'’-])+)",
     year = "(?<year>\\d{4})",
+    month = "(?<month>[A-Za-z]+)",
     volume = "(?<volume>\\d+)",
-    issue = "(?<issue>\\d+)",
+    issue = "(?<issue>\\d+(\/\\d+)*)", // also matches issue numbers like (3/4)
     journal = "(?<journal>.+?)",
     book = "(?<book>[^.]+)",
     article = "(?<article>.*?)\\.",
     chapter = "(?<chapter>.*?)",
-    pages="(?<pages>\\d+[-â€“]\\d+)",
+    pages="(?<pages>\\d+[-–]\\d+)",
     doi="(?<doi>10\\.\\d{4,9}/[-._;()/:A-Za-z0-9]+)";
 
+
+//Munson, K. I., & Savage, D. (2013). Interlibrary loan’s efficacy in meeting students’ expectations to acquire textbooks: Results from a study conducted in a large research library. Journal of Interlibrary Loan, Document Delivery & Electronic Reserves, 23(4/5), 191–200.
 // The clauses above, combined according to various citation formats.
 var regexes = {
   "DOI": XRegExp(doi),
   //"APA Book": new RegExp( author + "\\(" + year + "\\)\\.?\\s*" + book + "."),
-  "APA Article": XRegExp( author + "\\(" + year + "\\)\\.?\\s*" + article + "\\s*(?:" + journal + ",\\s*" + volume + "(?:\\(" + issue + "\\))?,\\s*" + pages + "?)\\.\\s*"+doi+"?"),
+  "APA Article": XRegExp(author + "\\(" + year + "\\)\\.?\\s*" + article + "\\s*(?:" + journal + ",\\s*" + volume + "(?:\\(" + issue + "\\))?,\\s*" + pages + "?)\\.\\s*"+doi+"?"),
   "APA Chapter": XRegExp( author + "\\(" + year + "\\)\\.?\\s*" + chapter + "\\s*(?:In\\s*(?<editors>[^()]+))\\(Eds?\\.\\),\\s*" + book + "\\(\\D*" + pages + "?\\)?" ),
   //"MLA Book": new RegExp( author + "\\.\\s*" + book + "\\.\\D+" + year),
-  "MLA Article": XRegExp( author + "\\s*[\â€œ\"]" + article +"[\"\â€]\\s*" + journal + ", vol.\\s*" + volume + "\\s*, nos?. " + issue + "?,\\s*" + year + "\\D*" + pages + "?" ),
-  "MLA Chapter": XRegExp( author + "\\s*[\â€œ\"]" + chapter +"[\"\â€]\\s*" + book + ",\\s*edited by\\s*(?<editor>.*?),\\s*(?<publisher>.*?),\\s*"+year+"\\D*" + pages + "?" ),
-  "Chicago Article": XRegExp( author + "\\s*[\â€œ\"]" + article +"[\"\â€]\\s*" + journal + volume + ",\\s*no.\\s*" + issue + "\\s*\\(" + year + "\\):\\s*" + pages + "?" ),
-  "Chicago Chapter": XRegExp( author + "\\s*[\â€œ\"]" + chapter +"[\"\â€]\\s*[Ii]n\\s*" + book + ",\\s*\\(?\\D+" + year + "\\):\\s*" + pages + "?" ),
-  "Chicago Chapter (variant)": XRegExp( author +"\\s*[\â€œ\"]" + chapter +"[\"\â€]\\s*[Ii]n\\s*" + book + ".\\D+" + year + "" )
+  "MLA Article": XRegExp( author + "\\s*[\“\"]" + article +"[\"\”]\\s*" + journal + ", vol.\\s*" + volume + "\\s*, nos?.\\s*" + issue + "?,\\s*" + month + "?\\s*?" + year + "\\D*" + pages + "?" ),
+  "MLA Chapter": XRegExp( author + "\\s*[\“\"]" + chapter +"[\"\”]\\s*" + book + ",\\s*edited by\\s*(?<editor>.*?),\\s*(?<publisher>.*?),\\s*"+year+"\\D*" + pages + "?" ),
+  "Chicago Article": XRegExp( author + "\\s*[\“\"]" + article +"[\"\”]\\s*" + journal + volume + ",\\s*no.\\s*" + issue + "\\s*\\(" + year + "\\):\\s*" + pages + "?" ),
+  "Chicago Chapter": XRegExp( author + "\\s*[\“\"]" + chapter +"[\"\”]\\s*[Ii]n\\s*" + book + ",\\s*\\(?\\D+" + year + "\\):\\s*" + pages + "?" ),
+  "Chicago Chapter (variant)": XRegExp( author +"\\s*[\“\"]" + chapter +"[\"\”]\\s*[Ii]n\\s*" + book + ".\\D+" + year + "" )
 }
 
 // Short function to avoid errors on nonexisting fields.
