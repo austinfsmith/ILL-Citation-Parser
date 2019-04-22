@@ -17,20 +17,20 @@ var author = "^(?<author>[A-Z](?:(?!$)[A-Za-z\u00C0-\u017F\\s&.,'’-])+)",
     pages="(?<pages>\\d+[-–]\\d+)",
     doi="(?<doi>10\\.\\d{4,9}/[-._;()/:A-Za-z0-9]+)";
 
-
-//Munson, K. I., & Savage, D. (2013). Interlibrary loan’s efficacy in meeting students’ expectations to acquire textbooks: Results from a study conducted in a large research library. Journal of Interlibrary Loan, Document Delivery & Electronic Reserves, 23(4/5), 191–200.
 // The clauses above, combined according to various citation formats.
 var regexes = {
-  "DOI": XRegExp(doi),
-  //"APA Book": new RegExp( author + "\\(" + year + "\\)\\.?\\s*" + book + "."),
-  "APA Article": XRegExp(author + "\\(" + year + "\\)\\.?\\s*" + article + "\\s*(?:" + journal + ",\\s*" + volume + "(?:\\(" + issue + "\\))?,\\s*" + pages + "?)\\.\\s*"+doi+"?"),
+  //"DOI": XRegExp(doi),
+  "APA Article": XRegExp( author + "\\(" + year + "\\)\\.?\\s*" + article + "\\s*(?:" + journal + ",\\s*" + volume + "(?:\\(" + issue + "\\))?,\\s*" + pages + "?)\\.\\s*"+doi+"?"),
   "APA Chapter": XRegExp( author + "\\(" + year + "\\)\\.?\\s*" + chapter + "\\s*(?:In\\s*(?<editors>[^()]+))\\(Eds?\\.\\),\\s*" + book + "\\(\\D*" + pages + "?\\)?" ),
-  //"MLA Book": new RegExp( author + "\\.\\s*" + book + "\\.\\D+" + year),
-  "MLA Article": XRegExp( author + "\\s*[\“\"]" + article +"[\"\”]\\s*" + journal + ", vol.\\s*" + volume + "\\s*, nos?.\\s*" + issue + "?,\\s*" + month + "?\\s*?" + year + "\\D*" + pages + "?" ),
+  "MLA Article": XRegExp( author + "\\s*[\“\"]" + article +"[\"\”]\\s*" + journal + ", vol.\\s*" + volume + "\\s*, nos?.\\s*" + issue + "?,\\s*(" + month + "\\.?)?\\s*?" + year + "\\D*" + pages + "?" ),
+  "MLA Article (variant)": XRegExp( author + "\\s*[\“\"]" + article +"[\"\”]\\s*" + journal + "\\s*" + volume + "(\\." + "(?<issue>\\d+(/\\d+)*))?" + "\\s*\\(" + year + "\\):\\s*" + pages),
   "MLA Chapter": XRegExp( author + "\\s*[\“\"]" + chapter +"[\"\”]\\s*" + book + ",\\s*edited by\\s*(?<editor>.*?),\\s*(?<publisher>.*?),\\s*"+year+"\\D*" + pages + "?" ),
   "Chicago Article": XRegExp( author + "\\s*[\“\"]" + article +"[\"\”]\\s*" + journal + volume + ",\\s*no.\\s*" + issue + "\\s*\\(" + year + "\\):\\s*" + pages + "?" ),
   "Chicago Chapter": XRegExp( author + "\\s*[\“\"]" + chapter +"[\"\”]\\s*[Ii]n\\s*" + book + ",\\s*\\(?\\D+" + year + "\\):\\s*" + pages + "?" ),
-  "Chicago Chapter (variant)": XRegExp( author +"\\s*[\“\"]" + chapter +"[\"\”]\\s*[Ii]n\\s*" + book + ".\\D+" + year + "" )
+  "Chicago Chapter (variant)": XRegExp( author +"\\s*[\“\"]" + chapter +"[\"\”]\\s*[Ii]n\\s*" + book + ".\\D+" + year + "" ),
+
+  "APA Book": XRegExp( author + "\\(" + year + "\\)\\.?\\s*" + book + "."),
+  "MLA Book": XRegExp( author + "\\.\\s*" + book + "\\.\\D+" + year)
 }
 
 // Short function to avoid errors on nonexisting fields.
@@ -39,7 +39,7 @@ function setField(field, value) {
 }
 
 function ParseCitation(){
-	
+
 	// The form fields we'll be populating.
 	// Add some redundancies so this will work on loan, chapter, and article request forms.
 	journal_title_field = document.getElementById("PhotoJournalTitle") || document.getElementById("LoanTitle");
@@ -56,7 +56,7 @@ function ParseCitation(){
 	article_title_field = document.getElementById("PhotoArticleTitle");
 	issn_field = document.getElementById("ISSN");
 	doi_field = document.getElementById("DOI");
-	
+
 	// clean up the citation (remove tabs, newlines, extra spaces)
 	var citation = document.getElementById('citation-field').value
 	citation = citation.replace(/\n/g, " ");
@@ -101,7 +101,7 @@ function ResolveDOI(doi){
 }
 
 // Fill out form fields with named match group data from a regular expression.
-// At present, some of these will always be null. 
+// At present, some of these will always be null.
 // This may change if/when the regexes are improved.
 function FillFormFromCitation(result) {
 	//console.log(result)
