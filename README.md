@@ -1,5 +1,7 @@
 # ILLiad Citation Parser & DOI Resolver
 
+# Work in progress! Using this in your web pages is not currently advisable.
+
 This is a quick guide to help you add a citation parser / DOI resolver to your ILLiad article request forms. Setup requires only minimal knowledge of HTML.
 
 ## What does it do?
